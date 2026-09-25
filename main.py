@@ -3,7 +3,7 @@ from telegram import Bot
 
 BOT_TOKEN = "8997221071:AAFlhTXwiNeBTDJX4f_tzRwWQ_oVjEHcsKI"
 GROUP_ID = -1004436958035   # your group ID
-FOLDER_PATH = r"D:\ad"
+FOLDER_PATH = "videos"
 
 def main():
     bot = Bot(token=BOT_TOKEN)
