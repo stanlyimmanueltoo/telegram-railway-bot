@@ -7,6 +7,9 @@ BOT_TOKEN = "8997221071:AAFlhTXwiNeBTDJX4f_tzRwWQ_oVjEHcsKI"
 GROUP_ID = -1004436958035   # your group ID
 FOLDER_PATH = "videos"
 
+# YOU FORGOT THIS LINE — this creates the bot object
+bot = Bot(token=BOT_TOKEN)
+
 def main():
     videos = sorted(os.listdir(FOLDER_PATH))
     videos = [v for v in videos if v.endswith(".mp4")]
@@ -22,7 +25,7 @@ def main():
 
             print(f"Uploaded: {video}")
 
-            time.sleep(12)  # IMPORTANT: safe delay for Telegram video flood control
+            time.sleep(12)  # safe delay for Telegram flood control
 
         except RetryAfter as e:
             wait_time = int(e.retry_after) + 5
