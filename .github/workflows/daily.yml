@@ -6,6 +6,7 @@ on:
       - main
   schedule:
     - cron: "0 12 * * *"   # Runs daily at 12:00 UTC (14:00 Netherlands)
+    - cron: "0 20 * * *"   # 22:00 Netherlands
   workflow_dispatch:        # Allows manual run
 
 jobs:
