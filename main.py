@@ -1,5 +1,7 @@
 import os
+import time
 from telegram import Bot
+from telegram.error import RetryAfter
 
 BOT_TOKEN = "8997221071:AAFlhTXwiNeBTDJX4f_tzRwWQ_oVjEHcsKI"
 GROUP_ID = -1004436958035   # your group ID
@@ -14,12 +16,25 @@ def main():
 
         print(f"Uploading: {video}")
 
-        with open(video_path, "rb") as vf:
-            bot.send_video(chat_id=GROUP_ID, video=vf, caption=f"Daily video: {video}")
+        try:
+            with open(video_path, "rb") as vf:
+                bot.send_video(chat_id=GROUP_ID, video=vf, caption=f"Daily video: {video}")
 
-        print(f"Uploaded: {video}")
+            print(f"Uploaded: {video}")
 
-        time.sleep(5)  # IMPORTANT: prevents Telegram flood control
+            time.sleep(12)  # IMPORTANT: safe delay for Telegram video flood control
+
+        except RetryAfter as e:
+            wait_time = int(e.retry_after) + 5
+            print(f"Flood control triggered. Waiting {wait_time} seconds...")
+            time.sleep(wait_time)
+
+            with open(video_path, "rb") as vf:
+                bot.send_video(chat_id=GROUP_ID, video=vf, caption=f"Daily video: {video}")
+
+            print(f"Uploaded after retry: {video}")
+
+            time.sleep(12)
 
 if __name__ == "__main__":
     main()
